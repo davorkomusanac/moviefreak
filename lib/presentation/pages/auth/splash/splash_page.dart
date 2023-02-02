@@ -60,22 +60,12 @@ class SplashPage extends StatelessWidget {
               child: BlocBuilder<AuthCheckCubit, AuthCheckState>(
                 builder: (context, state) => Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const TitleLabel(),
-                    const SizedBox(
+                  children: const [
+                    TitleLabel(),
+                    SizedBox(
                       height: 15,
                     ),
-                    const CircularProgressIndicator(),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('REMOVE ME LATER'),
-                    ),
+                    CircularProgressIndicator(),
                   ],
                 ),
               ),
