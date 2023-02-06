@@ -162,4 +162,29 @@ class AuthActionsCubit extends Cubit<AuthActionsState> {
       );
     }
   }
+
+  Future<void> resetPasswordPressed({required String email}) async {
+    emit(
+      state.copyWith(
+        status: AuthActionsStatus.loading,
+      ),
+    );
+
+    try {
+      await authRepository.resetPassword(email: email);
+      emit(
+        state.copyWith(
+          status: AuthActionsStatus.success,
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(
+        state.copyWith(
+          errorMessage: e.toString(),
+          status: AuthActionsStatus.error,
+        ),
+      );
+    }
+  }
 }

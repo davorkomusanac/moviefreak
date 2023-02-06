@@ -9,4 +9,8 @@ class AppStrings {
   static const callToLoginUpButtonText = 'Already have an account?\nSign in Here.';
   static const promoLoginText = 'Never forget what movie you watched';
   static const promoRegisterText = 'Register for free so that you can keep track of all movies you ever watched';
+  static const forgotPasswordButtonText = 'Request Password Reset';
+  static const forgotPasswordHintText = 'Type your email here';
+  static const forgotPasswordTitle = 'Reset Password';
+  static const forgotPasswordSuccessMessage = 'Check your email to reset password';
 }

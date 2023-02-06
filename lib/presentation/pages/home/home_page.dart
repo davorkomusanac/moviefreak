@@ -44,8 +44,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        const SizedBox(height: 30),
-                        const Text('You are Signed In'),
+                        const SizedBox(height: 350),
+                        const Text(
+                          'You are Signed In',
+                          style: TextStyle(
+                            fontSize: 39,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: () {
