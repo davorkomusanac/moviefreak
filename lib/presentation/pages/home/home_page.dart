@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../application/user/add_to_watchlist_or_watched/add_to_watchlist_or_watched_cubit.dart';
 import '../discover/discover_page.dart';
 import '../profile/profile_page.dart';
 
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _tabController = CupertinoTabController(initialIndex: 0);
+    context.read<AddToWatchlistOrWatchedCubit>().loadAllTitlesWatchlistAndWatchedPressed();
   }
 
   @override

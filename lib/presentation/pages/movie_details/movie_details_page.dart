@@ -4,10 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../application/movies/movie_details/movie_details_cubit.dart';
+import '../../../application/user/add_to_watchlist_or_watched/add_to_watchlist_or_watched_cubit.dart';
 import '../../../data/movies/models/movie_details/movie_details.dart';
 import '../../../data/movies/models/movie_search/movie_summary.dart';
+import '../../../styles.dart';
 import '../../utilities/utilities.dart';
 import '../widgets/build_poster_image.dart';
+import 'widgets/movie_remove_review_dialog.dart';
+import 'widgets/movie_remove_watchlist_dialog.dart';
+import 'widgets/movie_review_dialog.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   const MovieDetailsPage({
@@ -252,7 +257,103 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             ///
                             /// Watchlist and Watched buttons
                             ///
-                            //TODO Add buttons here
+                            BlocConsumer<AddToWatchlistOrWatchedCubit, AddToWatchlistOrWatchedState>(
+                              listener: (context, watchlistState) {
+                                if (watchlistState.status == AddToWatchlistOrWatchedStatus.error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(watchlistState.errorMessage),
+                                      duration: const Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
+                              },
+                              builder: (context, watchlistState) {
+                                //Check if movie is watchList so that buttons can be updated correctly
+                                bool isInWatchlist = false;
+                                bool isInWatched = false;
+                                String compare = "${state.movieDetails.title}_${state.movieDetails.id}";
+                                for (var movie in watchlistState.watchlistAllTitles) {
+                                  if (movie == compare) {
+                                    isInWatchlist = true;
+                                  }
+                                }
+                                for (var movie in watchlistState.watchedAllTitles) {
+                                  if (movie == compare) {
+                                    isInWatched = true;
+                                  }
+                                }
+                                return watchlistState.status == AddToWatchlistOrWatchedStatus.loading
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      )
+                                    : Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                              child: ElevatedButton(
+                                                style: isInWatchlist ? kWatchedButton : kNotWatchedButton,
+                                                onPressed: () {
+                                                  if (isInWatchlist) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => MovieRemoveWatchlistDialog(
+                                                        tmdbId: state.movieDetails.id,
+                                                        title: state.movieDetails.title,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    context
+                                                        .read<AddToWatchlistOrWatchedCubit>()
+                                                        .addMovieToWatchlistPressed(
+                                                          tmdbId: state.movieDetails.id,
+                                                          title: state.movieDetails.title,
+                                                          posterPath: state.movieDetails.posterPath,
+                                                        );
+                                                  }
+                                                },
+                                                child: Text(isInWatchlist ? "✅ In Watchlist" : "Add to Watchlist"),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                              child: ElevatedButton(
+                                                style: isInWatched ? kWatchedButton : kNotWatchedButton,
+                                                onPressed: () {
+                                                  if (isInWatched) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => MovieRemoveReviewDialog(
+                                                        tmdbId: state.movieDetails.id,
+                                                        title: state.movieDetails.title,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => MovieReviewDialog(
+                                                        tmdbId: state.movieDetails.id,
+                                                        title: state.movieDetails.title,
+                                                        posterPath: state.movieDetails.posterPath,
+                                                        isInWatchlist: isInWatchlist,
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                child: Text(isInWatched ? "✅ Watched" : "Rate it"),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                              },
+                            ),
 
                             ///
                             /// Tagline
