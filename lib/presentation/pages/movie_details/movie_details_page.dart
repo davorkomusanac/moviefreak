@@ -102,6 +102,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         hasScrollBody: false,
                         child: Column(
                           children: [
+                            ///
+                            ///Backdrop cover image
+                            ///
                             Material(
                               elevation: 10,
                               borderRadius: const BorderRadius.only(
@@ -143,6 +146,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                 ),
                               ),
                             ),
+
+                            ///
+                            ///Title and trailer
+                            ///
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
@@ -187,6 +194,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                 ),
                               ],
                             ),
+
+                            ///
+                            /// Runtime and rating
+                            ///
                             Row(
                               children: [
                                 Expanded(
@@ -237,7 +248,15 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                 ),
                               ],
                             ),
+
+                            ///
+                            /// Watchlist and Watched buttons
+                            ///
                             //TODO Add buttons here
+
+                            ///
+                            /// Tagline
+                            ///
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -285,7 +304,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                               ],
                             ),
 
-                            //Cast and Crew
+                            ///
+                            ///Cast and Crew
+                            ///
                             Row(
                               children: const [
                                 Padding(
@@ -368,7 +389,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                     ),
                             ),
 
-                            //Similar movies
+                            ///
+                            ///Similar movies
+                            ///
                             Row(
                               children: const [
                                 Padding(
