@@ -34,7 +34,6 @@ class MovieDetails {
   final String homepage;
   final int id;
   final String imdbId;
-  //final OriginalLanguage originalLanguage;
   final String originalTitle;
   final String overview;
   final num popularity;
@@ -129,7 +128,7 @@ class MovieDetails {
 }
 
 class Credits {
-  Credits({
+  const Credits({
     required this.cast,
     required this.crew,
   });
@@ -169,7 +168,7 @@ class Credits {
 }
 
 class Cast {
-  Cast({
+  const Cast({
     required this.adult,
     required this.gender,
     required this.id,
@@ -257,7 +256,7 @@ class Genre {
 }
 
 class MovieVideos {
-  MovieVideos({
+  const MovieVideos({
     required this.results,
   });
 

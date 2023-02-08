@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'application/auth/auth_actions/auth_actions_cubit.dart';
 import 'application/auth/auth_check/auth_check_cubit.dart';
+import 'application/movies/movie_details/movie_details_cubit.dart';
 import 'application/movies/movie_search/movie_search_cubit.dart';
 import 'application/movies/popular_movies/popular_movies_cubit.dart';
 import 'constants.dart';
@@ -57,6 +58,11 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<PopularMoviesCubit>(
               create: (context) => PopularMoviesCubit(
+                movieRepository: context.read<MovieRepository>(),
+              ),
+            ),
+            BlocProvider<MovieDetailsCubit>(
+              create: (context) => MovieDetailsCubit(
                 movieRepository: context.read<MovieRepository>(),
               ),
             ),
