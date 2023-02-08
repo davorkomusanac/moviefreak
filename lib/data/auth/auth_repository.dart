@@ -29,6 +29,11 @@ class AuthRepository {
         "uid": userCredential.user?.uid,
         "email": email,
         "full_name": fullName,
+        "account_created_date": Timestamp.now(),
+        "watchlist": [],
+        "watched": [],
+        "watched_length": 0,
+        "watchlist_length": 0,
       });
     } catch (e) {
       log(e.toString());
@@ -67,6 +72,11 @@ class AuthRepository {
           "uid": userCredential.user?.uid,
           "email": googleSignInAccount?.email ?? '',
           "full_name": googleSignInAccount?.displayName ?? '',
+          "account_created_date": Timestamp.now(),
+          "watchlist": [],
+          "watched": [],
+          "watched_length": 0,
+          "watchlist_length": 0,
         });
       }
     } catch (e) {
