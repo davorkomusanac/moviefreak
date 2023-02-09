@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../application/movies/movie_details/movie_details_cubit.dart';
 import '../../../application/user/add_to_watchlist_or_watched/add_to_watchlist_or_watched_cubit.dart';
 import '../../../data/movies/models/movie_details/movie_details.dart';
-import '../../../data/movies/models/movie_search/movie_summary.dart';
 import '../../../styles.dart';
 import '../../utilities/utilities.dart';
 import '../widgets/build_poster_image.dart';
@@ -17,10 +16,12 @@ import 'widgets/movie_review_dialog.dart';
 class MovieDetailsPage extends StatefulWidget {
   const MovieDetailsPage({
     Key? key,
-    required this.movieSummary,
+    required this.tmdbId,
+    required this.title,
   }) : super(key: key);
 
-  final MovieSummary movieSummary;
+  final int tmdbId;
+  final String title;
 
   @override
   State<MovieDetailsPage> createState() => _MovieDetailsPageState();
@@ -45,11 +46,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   void didChangeDependencies() {
     context.read<MovieDetailsCubit>().movieDetailsOpened(
-          id: widget.movieSummary.id,
+          id: widget.tmdbId,
         );
     context.read<AddToWatchlistOrWatchedCubit>().loadUserReviewCalled(
-          title: widget.movieSummary.title,
-          tmdbId: widget.movieSummary.id,
+          title: widget.title,
+          tmdbId: widget.tmdbId,
         );
     super.didChangeDependencies();
   }
@@ -57,11 +58,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   //Method to call, when Navigator.pop is called, to update the movieDetails page
   void sendEvent() {
     context.read<MovieDetailsCubit>().movieDetailsOpened(
-          id: widget.movieSummary.id,
+          id: widget.tmdbId,
         );
     context.read<AddToWatchlistOrWatchedCubit>().loadUserReviewCalled(
-          title: widget.movieSummary.title,
-          tmdbId: widget.movieSummary.id,
+          title: widget.title,
+          tmdbId: widget.tmdbId,
         );
   }
 
@@ -632,8 +633,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                                 .push(
                                                   MaterialPageRoute(
                                                     builder: (context) => MovieDetailsPage(
-                                                      movieSummary:
-                                                          state.movieDetails.movieSearchResults.movieSummaries[index],
+                                                      tmdbId: state
+                                                          .movieDetails.movieSearchResults.movieSummaries[index].id,
+                                                      title: state
+                                                          .movieDetails.movieSearchResults.movieSummaries[index].title,
                                                     ),
                                                   ),
                                                 )

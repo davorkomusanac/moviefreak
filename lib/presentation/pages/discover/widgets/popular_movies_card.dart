@@ -17,7 +17,8 @@ class PopularMoviesCard extends StatelessWidget {
             Navigator.of(context, rootNavigator: false).push(
               MaterialPageRoute(
                 builder: (context) => MovieDetailsPage(
-                  movieSummary: movieSummary,
+                  tmdbId: movieSummary.id,
+                  title: movieSummary.title,
                 ),
               ),
             );
