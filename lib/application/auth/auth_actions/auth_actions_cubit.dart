@@ -187,4 +187,38 @@ class AuthActionsCubit extends Cubit<AuthActionsState> {
       );
     }
   }
+
+  Future<void> deleteAccountPressed({String? password}) async {
+    emit(
+      state.copyWith(
+        status: AuthActionsStatus.loading,
+      ),
+    );
+
+    try {
+      await authRepository.deleteUser(password: password);
+      emit(
+        state.copyWith(
+          status: AuthActionsStatus.success,
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(
+        state.copyWith(
+          errorMessage: e.toString(),
+          status: AuthActionsStatus.error,
+        ),
+      );
+    }
+  }
+
+  void getAuthProvider() {
+    String provider = authRepository.getAuthProvider() ?? '';
+    emit(
+      state.copyWith(
+        isRegisteredWithEmailAndPassword: provider == 'password',
+      ),
+    );
+  }
 }

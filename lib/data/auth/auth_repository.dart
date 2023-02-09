@@ -14,6 +14,8 @@ class AuthRepository {
 
   Stream<User?> userAuthState() => _auth.userChanges();
 
+  String? getAuthProvider() => _auth.currentUser?.providerData[0].providerId;
+
   Future<void> registerUserWithEmailAndPassword({
     required String email,
     required String password,

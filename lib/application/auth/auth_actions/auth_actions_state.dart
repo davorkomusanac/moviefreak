@@ -14,6 +14,7 @@ class AuthActionsState extends Equatable {
     this.email = '',
     this.password = '',
     this.errorMessage = '',
+    this.isRegisteredWithEmailAndPassword = false,
   });
 
   final AuthActionsStatus status;
@@ -21,6 +22,7 @@ class AuthActionsState extends Equatable {
   final String email;
   final String password;
   final String errorMessage;
+  final bool isRegisteredWithEmailAndPassword;
 
   AuthActionsState copyWith({
     AuthActionsStatus? status,
@@ -28,6 +30,7 @@ class AuthActionsState extends Equatable {
     String? email,
     String? password,
     String? errorMessage,
+    bool? isRegisteredWithEmailAndPassword,
   }) =>
       AuthActionsState(
         status: status ?? this.status,
@@ -35,6 +38,7 @@ class AuthActionsState extends Equatable {
         email: email ?? this.email,
         password: password ?? this.password,
         errorMessage: errorMessage ?? this.errorMessage,
+        isRegisteredWithEmailAndPassword: isRegisteredWithEmailAndPassword ?? this.isRegisteredWithEmailAndPassword,
       );
 
   @override
@@ -44,5 +48,6 @@ class AuthActionsState extends Equatable {
         email,
         password,
         errorMessage,
+        isRegisteredWithEmailAndPassword,
       ];
 }
