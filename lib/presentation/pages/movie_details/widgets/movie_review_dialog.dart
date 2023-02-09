@@ -8,6 +8,8 @@ class MovieReviewDialog extends StatefulWidget {
   final String title;
   final String posterPath;
   final bool isInWatchlist;
+  final double rating;
+  final String review;
 
   const MovieReviewDialog({
     super.key,
@@ -15,6 +17,8 @@ class MovieReviewDialog extends StatefulWidget {
     required this.title,
     required this.posterPath,
     required this.isInWatchlist,
+    this.rating = 6.0,
+    this.review = '',
   });
 
   @override
@@ -22,13 +26,14 @@ class MovieReviewDialog extends StatefulWidget {
 }
 
 class _MovieReviewDialogState extends State<MovieReviewDialog> {
-  double rating = 6.0;
+  late double rating;
   late final TextEditingController _movieReviewController;
 
   @override
   void initState() {
     super.initState();
-    _movieReviewController = TextEditingController();
+    _movieReviewController = TextEditingController(text: widget.review);
+    rating = widget.rating;
   }
 
   @override
@@ -59,7 +64,6 @@ class _MovieReviewDialogState extends State<MovieReviewDialog> {
             0.0,
           ),
           insetPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          //title: Text("Rate the movie and write a review"),
           content: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -127,18 +131,28 @@ class _MovieReviewDialogState extends State<MovieReviewDialog> {
             ),
             ElevatedButton(
               onPressed: () {
-                context.read<AddToWatchlistOrWatchedCubit>().addMovieToWatchedPressed(
-                      tmdbId: widget.tmdbId,
-                      title: widget.title,
-                      posterPath: widget.posterPath,
-                      review: _movieReviewController.text,
-                      rating: rating,
-                    );
-                if (widget.isInWatchlist) {
-                  context.read<AddToWatchlistOrWatchedCubit>().removeMovieFromWatchlistPressed(
+                if (widget.review.isNotEmpty) {
+                  context.read<AddToWatchlistOrWatchedCubit>().updateMovieToWatchedPressed(
                         tmdbId: widget.tmdbId,
                         title: widget.title,
+                        posterPath: widget.posterPath,
+                        review: _movieReviewController.text,
+                        rating: rating,
                       );
+                } else {
+                  context.read<AddToWatchlistOrWatchedCubit>().addMovieToWatchedPressed(
+                        tmdbId: widget.tmdbId,
+                        title: widget.title,
+                        posterPath: widget.posterPath,
+                        review: _movieReviewController.text,
+                        rating: rating,
+                      );
+                  if (widget.isInWatchlist) {
+                    context.read<AddToWatchlistOrWatchedCubit>().removeMovieFromWatchlistPressed(
+                          tmdbId: widget.tmdbId,
+                          title: widget.title,
+                        );
+                  }
                 }
                 Navigator.of(context, rootNavigator: true).pop();
               },

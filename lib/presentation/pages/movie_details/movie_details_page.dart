@@ -47,6 +47,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     context.read<MovieDetailsCubit>().movieDetailsOpened(
           id: widget.movieSummary.id,
         );
+    context.read<AddToWatchlistOrWatchedCubit>().loadUserReviewCalled(
+          title: widget.movieSummary.title,
+          tmdbId: widget.movieSummary.id,
+        );
     super.didChangeDependencies();
   }
 
@@ -54,6 +58,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   void sendEvent() {
     context.read<MovieDetailsCubit>().movieDetailsOpened(
           id: widget.movieSummary.id,
+        );
+    context.read<AddToWatchlistOrWatchedCubit>().loadUserReviewCalled(
+          title: widget.movieSummary.title,
+          tmdbId: widget.movieSummary.id,
         );
   }
 
@@ -353,6 +361,87 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                         ],
                                       );
                               },
+                            ),
+
+                            ///
+                            /// User Review
+                            ///
+                            BlocBuilder<AddToWatchlistOrWatchedCubit, AddToWatchlistOrWatchedState>(
+                              builder: (context, watchlistState) => watchlistState.userReview != null &&
+                                      watchlistState.userReview!.review.isNotEmpty &&
+                                      watchlistState.status == AddToWatchlistOrWatchedStatus.success
+                                  ? Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                left: 16.0,
+                                                top: 8.0,
+                                                bottom: 8.0,
+                                                right: 8.0,
+                                              ),
+                                              child: Text(
+                                                "Your Review",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 8.0),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => MovieReviewDialog(
+                                                      tmdbId: state.movieDetails.id,
+                                                      title: state.movieDetails.title,
+                                                      posterPath: state.movieDetails.posterPath,
+                                                      isInWatchlist: false,
+                                                      rating: watchlistState.userReview?.rating.toDouble() ?? 6.0,
+                                                      review: watchlistState.userReview?.review ?? '',
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text('Edit'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 16.0,
+                                            bottom: 8.0,
+                                            right: 8.0,
+                                          ),
+                                          child: Text(
+                                            "You rated it ⭐ ${watchlistState.userReview?.rating.toInt().toString()} / 10",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 16.0,
+                                            bottom: 8.0,
+                                            right: 8.0,
+                                          ),
+                                          child: Text(
+                                            watchlistState.userReview?.review ?? '',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        const Divider(),
+                                      ],
+                                    )
+                                  : const Offstage(),
                             ),
 
                             ///

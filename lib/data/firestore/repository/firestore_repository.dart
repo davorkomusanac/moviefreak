@@ -295,4 +295,21 @@ class FirestoreRepository {
       throw e.toString();
     }
   }
+
+  Future<FirestoreMovieWatchedDetails> showUserReview({
+    required String title,
+    required int tmdbId,
+  }) async {
+    try {
+      var documentSnapshot = await _movies
+          .doc(_auth.currentUser?.uid)
+          .collection('watched')
+          .doc("${title.replaceAll('/', ' ')}_$tmdbId")
+          .get();
+      return FirestoreMovieWatchedDetails.fromSnapshot(documentSnapshot);
+    } catch (e) {
+      log("Getting user review ERROR: $e");
+      throw e.toString();
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/firestore/models/firestore_movie_watched_details.dart';
 import '../../../data/firestore/repository/firestore_repository.dart';
 
 part 'add_to_watchlist_or_watched_state.dart';
@@ -131,6 +132,7 @@ class AddToWatchlistOrWatchedCubit extends Cubit<AddToWatchlistOrWatchedState> {
           watchedAllTitles: updatedWatchedAllTitles,
         ),
       );
+      await loadUserReviewCalled(title: title, tmdbId: tmdbId);
     } catch (e) {
       emit(
         state.copyWith(
@@ -163,6 +165,7 @@ class AddToWatchlistOrWatchedCubit extends Cubit<AddToWatchlistOrWatchedState> {
           watchedAllTitles: updatedWatchedAllTitles,
         ),
       );
+      await loadUserReviewCalled(title: title, tmdbId: tmdbId);
     } catch (e) {
       emit(
         state.copyWith(
@@ -196,6 +199,39 @@ class AddToWatchlistOrWatchedCubit extends Cubit<AddToWatchlistOrWatchedState> {
       emit(
         state.copyWith(
           status: AddToWatchlistOrWatchedStatus.success,
+        ),
+      );
+      await loadUserReviewCalled(title: title, tmdbId: tmdbId);
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: AddToWatchlistOrWatchedStatus.error,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> loadUserReviewCalled({
+    required String title,
+    required int tmdbId,
+  }) async {
+    try {
+      emit(
+        state.copyWith(
+          userReview: null,
+          status: AddToWatchlistOrWatchedStatus.loading,
+        ),
+      );
+
+      var review = await firestoreRepository.showUserReview(
+        tmdbId: tmdbId,
+        title: title,
+      );
+      emit(
+        state.copyWith(
+          status: AddToWatchlistOrWatchedStatus.success,
+          userReview: review,
         ),
       );
     } catch (e) {

@@ -12,24 +12,28 @@ class AddToWatchlistOrWatchedState extends Equatable {
     this.watchlistAllTitles = const <String>[],
     this.watchedAllTitles = const <String>[],
     this.errorMessage = '',
+    this.userReview,
   });
 
   final AddToWatchlistOrWatchedStatus status;
   final List<String> watchlistAllTitles;
   final List<String> watchedAllTitles;
   final String errorMessage;
+  final FirestoreMovieWatchedDetails? userReview;
 
   AddToWatchlistOrWatchedState copyWith({
     AddToWatchlistOrWatchedStatus? status,
     List<String>? watchlistAllTitles,
     List<String>? watchedAllTitles,
     String? errorMessage,
+    FirestoreMovieWatchedDetails? userReview,
   }) =>
       AddToWatchlistOrWatchedState(
         status: status ?? this.status,
         watchlistAllTitles: watchlistAllTitles ?? this.watchlistAllTitles,
         watchedAllTitles: watchedAllTitles ?? this.watchedAllTitles,
         errorMessage: errorMessage ?? this.errorMessage,
+        userReview: userReview ?? this.userReview,
       );
 
   @override

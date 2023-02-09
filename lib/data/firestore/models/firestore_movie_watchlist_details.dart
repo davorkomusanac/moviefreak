@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreMovieWatchlistDetails {
-  FirestoreMovieWatchlistDetails({
+  const FirestoreMovieWatchlistDetails({
     required this.id,
     required this.title,
     required this.posterPath,
