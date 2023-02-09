@@ -10,6 +10,7 @@ import 'application/movies/movie_details/movie_details_cubit.dart';
 import 'application/movies/movie_search/movie_search_cubit.dart';
 import 'application/movies/popular_movies/popular_movies_cubit.dart';
 import 'application/user/add_to_watchlist_or_watched/add_to_watchlist_or_watched_cubit.dart';
+import 'application/user/user_watchlist_and_watched/user_watchlist_and_watched_cubit.dart';
 import 'constants.dart';
 import 'data/auth/auth_repository.dart';
 import 'data/firestore/repository/firestore_repository.dart';
@@ -73,6 +74,11 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<AddToWatchlistOrWatchedCubit>(
               create: (context) => AddToWatchlistOrWatchedCubit(
+                firestoreRepository: context.read<FirestoreRepository>(),
+              ),
+            ),
+            BlocProvider<UserWatchlistAndWatchedCubit>(
+              create: (context) => UserWatchlistAndWatchedCubit(
                 firestoreRepository: context.read<FirestoreRepository>(),
               ),
             ),

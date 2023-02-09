@@ -312,4 +312,17 @@ class FirestoreRepository {
       throw e.toString();
     }
   }
+
+  Future<List<num>> getWatchStats() async {
+    try {
+      var docSnapshot = await _users.doc(_auth.currentUser?.uid).get() as DocumentSnapshot<Map<String, dynamic>>;
+      var data = docSnapshot.data() ?? {};
+      num watchlist = data['watchlist_length'] as num? ?? 0;
+      num watched = data['watched_length'] as num? ?? 0;
+      return <num>[watchlist, watched];
+    } catch (e) {
+      log("Getting user stats ERROR: $e");
+      throw e.toString();
+    }
+  }
 }
